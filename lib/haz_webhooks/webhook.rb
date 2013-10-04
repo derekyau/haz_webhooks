@@ -4,7 +4,6 @@ module HazWebhooks
   class Webhook < ::ActiveRecord::Base
     include HTTParty
     belongs_to :hook, :polymorphic => true
-    attr_accessible :url, :key, :active, :hook_id
 
     def set(theURL)
       self.url = theURL
@@ -17,7 +16,7 @@ module HazWebhooks
       end
     end
 
-    scope :active, where(:active => true)
+    scope :active, -> { where(:active => true) }
 
     scope :event, lambda {|name| active.where(:key => name)}
   end
